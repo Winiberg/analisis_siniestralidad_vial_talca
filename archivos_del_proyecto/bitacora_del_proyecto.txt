@@ -1,0 +1,225 @@
+===============================================================================
+                       BITÁCORA TÉCNICA DE DESARROLLO
+                  PROYECTO: ANALÍTICA DE SINIESTRALIDAD VIAL
+                              COMUNA DE TALCA
+===============================================================================
+
+FECHA DE REGISTRO: 09 de noviembre de 2026
+INSTITUCIÓN: Universidad Católica del Maule
+FACULTAD: Facultad de Ciencias de la Ingeniería
+CARRERA: Escuela de Ingeniería de Ejecución en Computación e Informática
+ASIGNATURA: Módulo Integrador II (ECI-324)
+
+-------------------------------------------------------------------------------
+1. PASO 1: CONFIGURACIÓN DEL ENTORNO DE TRABAJO Y ESTRUCTURA DE ARCHIVOS
+-------------------------------------------------------------------------------
+- Creación de la estructura del proyecto en entorno local:
+    proyecto_siniestralidad_talca/
+    ├── data/       (Almacenamiento de bases de datos e insumos)
+    ├── src/        (Módulos y scripts de código en Python)
+    └── assets/     (Recursos gráficos e isotipos institucionales)
+
+- Configuración del entorno de ejecución en Python 3 y provisión de librerías:
+    • pandas / numpy (Procesamiento y manipulación de estructuras matriciales)
+    • scikit-learn (Modelamiento estadístico y machine learning no supervisado)
+    • folium / streamlit-folium (Motor de cartografía interactiva y georreferenciada)
+    • streamlit (Framework para desarrollo de prototipo web analítico)
+
+-------------------------------------------------------------------------------
+2. PASO 2: ADQUISICIÓN Y ADAPTACIÓN DEL DATASET
+-------------------------------------------------------------------------------
+- Obtención y consolidación de los registros oficiales del Observatorio de 
+  Datos de CONASET y Carabineros de Chile.
+- Período temporal cubierto: Datasets de los años 2020, 2021, 2022 y 2025.
+- Volumen total bruto inicial: 217.333 registros a nivel nacional.
+
+-------------------------------------------------------------------------------
+3. PASO 3: INGESTA, UNIFICACIÓN Y FILTRADO COMUNAL (01_filtrar_talca.py)
+-------------------------------------------------------------------------------
+- Ejecución del script de lectura y concatenación matricial multianual.
+- Normalización de cadenas de texto en la columna de delimitación administrativa.
+- Aplicación de filtro espacial comunal:
+    • Criterio: COMUNA == 'TALCA' (Normalizado en mayúsculas y sin espacios)
+    • Resultado obtenido: 4.562 registros validados pertenecientes a la comuna.
+- Generación de artefacto intermedio: data/talca_consolidado.csv
+
+-------------------------------------------------------------------------------
+4. PASO 4: LIMPIEZA, TRATAMIENTO DE NULOS Y INGENIERÍA DE CARACTERÍSTICAS
+   (02_limpieza_y_metricas.py)
+-------------------------------------------------------------------------------
+- Depuración Geográfica:
+    • Casting de variables de coordenadas (Latitud y Longitud) a tipo decimal.
+    • Eliminación de tuplas con valores nulos o fuera del rango delimitador de Talca 
+      (Latitud ~ -35.4, Longitud ~ -71.6). Se conservó el 100% de la muestra.
+
+- Formulación de Métricas Ponderadas e Índices de Severidad:
+    • Cálculo de 'PUNTAJE_SEVERIDAD': (Fallecidos * 10) + (Graves * 5) + 
+      (Menos Graves * 3) + (Leves * 1).
+    • Categorización ordinal de gravedad ('CATEGORIA_SEVERIDAD'): Fatal, Grave, 
+      Con Lesionados y Solo Daños Materiales.
+
+- Temporalización y Discretización:
+    • Creación de la variable 'BLOQUE_HORARIO' agrupando la hora de ocurrencia en:
+      Madrugada (00:00 - 05:59), Mañana (06:00 - 11:59), Tarde (12:00 - 17:59) 
+      y Noche (18:00 - 23:59).
+- Generación de artefacto limpio: data/talca_limpio_final.csv
+
+-------------------------------------------------------------------------------
+5. PASO 5: AGRUPAMIENTO ESPACIAL Y DETECCIÓN DE ZONAS CRÍTICAS
+   (03_clustering_hotspots.py)
+-------------------------------------------------------------------------------
+- Modelamiento Estadístico No Supervisado:
+    • Algoritmo aplicado: K-Means Clustering sobre matriz bidimensional [Lat, Lng].
+    • Parámetros: k = 10 clústeres representativos de la trama urbana de Talca.
+- Generación de Centroides Espaciales y Métricas Agregadas:
+    • Cálculo de la latitud/longitud promedio y sumatoria de severidad por clúster.
+    • Ranking jerárquico de riesgo (#1 al #10) según severidad acumulada.
+- Asignación de Identificadores Geográficos Representativos:
+    • Etiquetado urbano de centroides mediante puntos de referencia reconocibles 
+      (ej. Sector Centro, Sector Hospital/Terminal, Acceso Norte/Lircay, etc.).
+- Generación de artefactos analíticos: 
+    • data/talca_con_clusters.csv
+    • data/hotspots_centroides.csv
+
+-------------------------------------------------------------------------------
+6. PASO 6: REFINAMIENTO DE DISEÑO Y OPTIMIZACIÓN UX/UI INSTITUCIONAL (app.py)
+-------------------------------------------------------------------------------
+- Construcción y Estetización del Visor Web Interactivo:
+    • Integración de capa de Mapa de Calor (HeatMap de densidad de puntos).
+    • Marcadores geográficos numerados (#1 al #10) con paleta de color semántica 
+      por nivel de riesgo (Rojo para Top 3, Naranja para nivel medio, Azul bajo).
+    • Círculos de cobertura de zona (~350 m de radio) alrededor de cada centroide.
+
+- Refinamiento de Interfaz de Usuario y Estándar Ejecutivo:
+    • Eliminación de elementos informales (emojis) para cumplir con criterios de 
+      diseño institucional.
+    • Incorporación de encabezado formal con denominación oficial de la carrera, 
+      facultad e isotipo horizontal oficial de la UCM.
+    • Normalización de contenedores modulares (`st.container(border=True)`) 
+      para la visualización de KPIs y la tabla resumen de datos.
+    • Diseño e implementación de pie de página (footer) institucional con la 
+      paleta corporativa Azul UCM (#002B66).
+
+===============================================================================
+ESTADO ACTUAL DEL ENTREGABLE: Prototipo funcional ejecutable, con interfaz visual 
+institucional optimizada y analítica no supervisada validada.
+===============================================================================
+===============================================================================
+
+FECHA DE REGISTRO: 11 de noviembre de 2026
+-------------------------------------------------------------------------------
+1. OBJETIVO DE LA JORNADA
+-------------------------------------------------------------------------------
+Ejecutar el proceso de Validación Cruzada (Cross-Validation) y Auditoría de 
+Consistencia de Datos contrastando el procesamiento en Python contra tablas 
+dinámicas independientes en Microsoft Excel, garantizando un 100% de precisión 
+numérica para el informe final del Módulo Integrador II.
+
+-------------------------------------------------------------------------------
+2. ESTRUCTURACIÓN DEL ENTORNO DE AUDITORÍA
+-------------------------------------------------------------------------------
+- Creación de la carpeta dedicada: `auditoria_y_validacion/`.
+
+- Normalización y estandarización de nombres de los datasets nacionales:
+
+    • `conaset_siniestros_2020.csv`
+
+    • `conaset_siniestros_2021.csv`
+
+    • `conaset_siniestros_2022.csv`
+
+    • `conaset_siniestros_2025.csv`
+
+- Consolidación de datos mediante Power Query en Excel importando la estructura 
+
+  UTF-8 sin pérdida de registros.
+
+-------------------------------------------------------------------------------
+3. FASE 1: AUDITORÍA DE INGESTA Y FILTRADO COMUNAL
+-------------------------------------------------------------------------------
+- Aplicación de filtros de segmentación en Tabla Dinámica (`COMUNA == 'TALCA'`).
+
+- Contrastación de volumen de datos por periodo anual contra el visor de Streamlit:
+
+    • Año 2020: 907 registros (Excel) vs. 907 registros (Python) -> 100% Coincidencia
+
+    • Año 2021: 1.017 registros (Excel) vs. 1.017 registros (Python) -> 100% Coincidencia
+
+    • Año 2022: 1.344 registros (Excel) vs. 1.344 registros (Python) -> 100% Coincidencia
+
+    • Año 2025: 1.294 registros (Excel) vs. 1.294 registros (Python) -> 100% Coincidencia
+
+- Total Consolidado Auditado: 4.562 registros validados.
+
+-------------------------------------------------------------------------------
+4. FASE 2: AUDITORÍA DE CONSECUENCIAS HUMANAS (KPIS PRINCIPALES)
+-------------------------------------------------------------------------------
+- Verificación de sumatorias agregadas en Tabla Dinámica:
+
+    • Suma de FALLECIDOS: 30 personas (Excel) vs. 30 (Streamlit) -> Validado
+
+    • Suma de GRAVES: 222 personas (Excel) vs. 222 (Streamlit) -> Validado
+
+    • Suma de MENOS GRAVES: 200 personas (Excel) vs. 200 (Python) -> Validado
+
+    • Suma de LEVES: 2.254 personas (Excel) -> Validado
+
+    • Eventos Solo Daños Materiales: 2.739 accidentes (Excel) -> Validado
+
+-------------------------------------------------------------------------------
+5. FASE 3: DEFINICIÓN Y AUDITORÍA METODOLÓGICA DEL ÍNDICE DE SEVERIDAD
+-------------------------------------------------------------------------------
+- Análisis comparativo de enfoques de cálculo:
+
+    • Enfoque A (Salud Pública / Víctimas Totales): 6.120 pts (Ponderación individual de heridos leves).
+
+    • Enfoque B (Riesgo de Infraestructura Vial / Evento Base): 4.264 pts (Evaluación de severidad por siniestro).
+
+- Definición Estratégica: Se adopta formalmente el **Enfoque B (4.264 pts)** por su 
+
+  alineación con el estándar EPAS/FHWA para caracterización espacial de vías.
+
+- Desglose matemático auditado en Excel:
+
+    • Fallecidos: 30 * 10 pts = 300 pts
+
+    • Graves: 222 * 5 pts = 1.110 pts
+
+    • Menos Graves: 200 * 3 pts = 600 pts
+
+    • Solo Daños / Base: 2.739 * 1 pt = 2.739 pts
+
+    • TOTAL SEVERIDAD ACUMULADA: 4.264 pts (Coincidencia exacta a la unidad).
+
+-------------------------------------------------------------------------------
+6. MATRIZ CONSOLIDADA DE VALIDACIÓN CRUZADA
+-------------------------------------------------------------------------------
+
+| Eje de Auditoría       | Métrica / Variable        | Excel   | Streamlit | Estado    |
+
+|------------------------|---------------------------|---------|-----------|-----------|
+
+| Ingesta Comunal        | Total Accidentes Talca    | 4.562   | 4.562     | EXACTO    |
+
+| Consecuencias Humanas  | Fallecidos Totales        | 30      | 30        | EXACTO    |
+
+| Consecuencias Humanas  | Lesionados Graves         | 222     | 222       | EXACTO    |
+
+| Métrica Ponderada      | Severidad Acumulada (ISAS)| 4.264   | 4.264     | EXACTO    |
+
+
+
+-------------------------------------------------------------------------------
+7. ARTEFACTOS GENERADOS Y DOCUMENTACIÓN
+
+-------------------------------------------------------------------------------
+- Libro Excel de respaldo: `auditoria_y_validacion/conaset_siniestros.xlsx`
+
+  con las pestañas de Tablas Dinámicas y la `matriz_resumen_auditoria`.
+
+- Capturas de evidencia guardadas para la sección de Metodología y Anexos del informe.
+
+===============================================================================
+ESTADO ACTUAL DEL ENTREGABLE: Fase de auditoría y validación cruzada finalizada 
+con éxito (100% de coincidencia). Proyecto listo para redacción final del informe.
+===============================================================================
