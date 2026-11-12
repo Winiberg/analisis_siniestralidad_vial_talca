@@ -1,3 +1,6 @@
+## Plataforma en Vivo
+Explora el dashboard interactivo directamente desde tu navegador:
+**[Plataforma de Analítica de Siniestralidad Vial - Comuna de Talca](https://siniestralidadvialtalca.streamlit.app)**
 # Plataforma de Analítica e Identificación de Zonas de Riesgo Vial — Comuna de Talca (2020-2025)
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?style=flat&logo=python)
@@ -57,3 +60,5 @@ Para priorizar las zonas de riesgo según el impacto en la infraestructura vial,
 3. **Ejecutar la plataforma Streamlit:**
     ```bash
     streamlit run src/app.py
+
+    
