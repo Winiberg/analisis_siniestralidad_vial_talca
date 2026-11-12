@@ -74,6 +74,12 @@ def cargar_datos():
     hotspots = pd.read_csv(ruta_hotspots)
     return df, hotspots
 
+try:
+    df, hotspots = cargar_datos()
+except Exception as e:
+    st.error(f"Error al cargar los datos CSV: {e}")
+    st.stop()
+
 # 3. Cabecera Institucional (Logo UCM con bordes rectos y sin recortes)
 col_header, col_logo_ucm = st.columns([3.8, 1.2])
 
@@ -88,7 +94,7 @@ with col_logo_ucm:
         ruta_ucm = os.path.join(BASE_DIR, "data", "logo_ucm_horizontal.png")
         
     if os.path.exists(ruta_ucm):
-        st.image(ruta_ucm, use_container_width=True)
+        st.image(ruta_ucm, width="stretch")
 
 st.divider()
 
@@ -215,7 +221,7 @@ with st.container(border=True):
         'Total Accidentes', 'Fallecidos', 'Lesionados Graves', 'Severidad Acumulada'
     ]
 
-    st.dataframe(tabla_ciudadana, use_container_width=True, hide_index=True)
+    st.dataframe(tabla_ciudadana, width="stretch", hide_index=True)
 
 # 8. Pie de Página Institucional en Azul UCM (#002B66)
 st.markdown("""
