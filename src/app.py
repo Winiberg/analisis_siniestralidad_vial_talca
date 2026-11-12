@@ -62,20 +62,17 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Obtener la ruta base del proyecto de forma dinámica (funciona local y en la nube)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 # 2. Cargar los datos
 @st.cache_data
 def cargar_datos():
-    ruta_df = os.path.join("..", "data", "talca_con_clusters.csv")
-    ruta_hotspots = os.path.join("..", "data", "hotspots_centroides.csv")
+    ruta_df = os.path.join(BASE_DIR, "data", "talca_con_clusters.csv")
+    ruta_hotspots = os.path.join(BASE_DIR, "data", "hotspots_centroides.csv")
     df = pd.read_csv(ruta_df, low_memory=False)
     hotspots = pd.read_csv(ruta_hotspots)
     return df, hotspots
-
-try:
-    df, hotspots = cargar_datos()
-except Exception as e:
-    st.error(f"Error al cargar los datos CSV: {e}")
-    st.stop()
 
 # 3. Cabecera Institucional (Logo UCM con bordes rectos y sin recortes)
 col_header, col_logo_ucm = st.columns([3.8, 1.2])
@@ -86,9 +83,9 @@ with col_header:
     st.markdown('<div class="sub-header">Monitoreo Espacio-Temporal y Análisis de Zonas de Riesgo en la Comuna de Talca</div>', unsafe_allow_html=True)
 
 with col_logo_ucm:
-    ruta_ucm = os.path.join("assets", "logo_ucm_horizontal.png")
+    ruta_ucm = os.path.join(BASE_DIR, "src", "assets", "logo_ucm_horizontal.png")
     if not os.path.exists(ruta_ucm):
-        ruta_ucm = os.path.join("..", "data", "logo_ucm_horizontal.png")
+        ruta_ucm = os.path.join(BASE_DIR, "data", "logo_ucm_horizontal.png")
         
     if os.path.exists(ruta_ucm):
         st.image(ruta_ucm, use_container_width=True)
