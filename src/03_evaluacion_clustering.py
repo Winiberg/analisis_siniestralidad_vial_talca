@@ -138,7 +138,7 @@ def main():
             "Silhouette_Score": fila_k7["Silhouette"],
             "Davies_Bouldin": fila_k7["Davies_Bouldin"],
             "Estabilidad_ARI": fila_k7["Estabilidad_ARI"],
-            "Idoneidad_Operativa": "Alta — Cobertura del 100% de eventos y alineación directa con las 7 zonas urbanas del PLADECO.",
+            "Idoneidad_Operativa": "Partición territorial completa (100 % de cobertura) en 7 zonas aproximadamente asimilables al PLADECO.",
         },
         {
             "Algoritmo": "DBSCAN (eps=350m, min=30, UTM 19S)",
@@ -147,7 +147,7 @@ def main():
             "Silhouette_Score": sil_db_sin_ruido,
             "Davies_Bouldin": db_index_db,
             "Estabilidad_ARI": "N/A (Determinista)",
-            "Idoneidad_Operativa": "Baja — Concentra el casco urbano en un solo macro-clúster y excluye siniestros periféricos.",
+            "Idoneidad_Operativa": "En esta escala agrupa el centro y excluye periferia (6.3 %); su rol es complementario para micro-focos locales (100-150 m).",
         },
     ])
     df_benchmark.to_csv(RUTA_BENCHMARK_CSV, index=False)
