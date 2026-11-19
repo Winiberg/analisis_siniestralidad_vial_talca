@@ -1,0 +1,11 @@
+INTERSECCION,NOMBRE_ZONA,Latitud,Longitud,Total_Siniestros,Fallecidos,Graves,Severidad_ISA,Ranking
+21 ORIENTE & SAN MIGUEL,Zona Suroriente - Carlos Trupp (30 Oriente / 8 Sur),-35.43218165,-71.63653743,45,1,1,41,1
+SAN MIGUEL & 21 ORIENTE,Zona Suroriente - Carlos Trupp (30 Oriente / 8 Sur),-35.43218165,-71.63653743,35,0,1,37,2
+SAN MIGUEL & 23 ORIENTE,Zona Suroriente - Carlos Trupp (30 Oriente / 8 Sur),-35.43278973,-71.63424759,28,0,3,35,3
+SAN MIGUEL,Zona Suroriente - Carlos Trupp (30 Oriente / 8 Sur),-35.43444039,-71.630407,23,1,2,31,4
+LIRCAY,Zona Norte (Alameda Norte / Av. Lircay),-35.40734539,-71.64636672,29,0,4,29,5
+18 SUR & 6 PONIENTE,Zona Suroriente - Las Colines (16 Sur / 5 Oriente),-35.447853,-71.664261,7,2,0,29,6
+CIRCUNVALACION & 12 NORTE,Zona Norte (Alameda Norte / Av. Lircay),-35.413565,-71.652167,18,1,1,27,7
+SAN MIGUEL & 34 ORIENTE,Zona Suroriente - Carlos Trupp (30 Oriente / 8 Sur),-35.43651828,-71.62279708,18,0,2,26,8
+17 ORIENTE & 3 1/2 SUR,Zona Pericentro (Terminal / Hospital / Ruta 5),-35.432076,-71.642167,1,1,2,26,9
+CIRCUNVALACION & 4 NORTE,Zona Pericentro (Terminal / Hospital / Ruta 5),-35.424129,-71.648025,25,0,1,25,10

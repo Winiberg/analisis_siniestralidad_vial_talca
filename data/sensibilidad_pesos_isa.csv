@@ -1,0 +1,8 @@
+CLUSTER_ID,NOMBRE_ZONA,Siniestros,Fallecidos,Graves,Menos_Graves,Leves,ISA_Actual (10/5/3/1),Rank_ISA_Actual (10/5/3/1),Frecuencia_Pura (1/1/1/1),Rank_Frecuencia_Pura (1/1/1/1),Severidad_Extrema (20/10/3/1),Rank_Severidad_Extrema (20/10/3/1),EPDO_Modificado (12/6/3/1),Rank_EPDO_Modificado (12/6/3/1)
+6,Zona Centro (Casco Histórico / 1 Sur - 6 Oriente),1157,7,54,43,597,1066,1,1157,1,1406,1,1134,1
+0,Zona Pericentro (Terminal / Hospital / Ruta 5),1024,6,44,37,452,843,2,1024,2,1123,2,899,2
+5,Zona Suroriente - Carlos Trupp (30 Oriente / 8 Sur),874,7,41,36,371,754,3,874,3,1029,3,809,3
+4,Zona Norte (Alameda Norte / Av. Lircay),565,2,37,33,364,668,4,565,4,873,4,709,4
+1,Zona Surponiente (Av. Colín / La Florida),312,4,17,14,166,333,5,312,6,458,5,358,5
+2,Zona Suroriente - Las Colines (16 Sur / 5 Oriente),300,3,19,16,154,327,6,300,7,452,6,352,6
+3,Zona Nororiente (Las Rastras / Av. San Miguel),330,1,10,21,150,273,7,330,5,333,7,285,7

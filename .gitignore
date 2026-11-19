@@ -1,5 +1,11 @@
-__pycache__/
-*.pyc
+# Entornos virtuales y caché de Python
 .venv/
-.env
-.DS_Store
+venv/
+__pycache__/
+*.py[cod]
+
+# Bases nacionales crudas y carpetas de respaldo pesadas (>200 MB)
+data/Base_SINIESTROS_*.csv
+archivos_del_proyecto/
+auditoria_y_validacion/*.xlsx
+auditoria_y_validacion/*.csv
