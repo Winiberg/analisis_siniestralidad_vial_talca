@@ -315,7 +315,7 @@ with tab_operativa:
 
         st.info("""
         **Notas metodológicas de lectura:**  
-        • **Delimitación espacial:** Los 7 clústeres fueron obtenidos mediante *K-Means* en coordenadas métricas UTM Zona 19S y corresponden a las 7 zonas urbanas definidas en el PLADECO Talca 2024–2028 (pp. 46–47). El marcador indica el centroide matemático y el polígono representa la envolvente real de sus eventos.  
+        • **Delimitación espacial:** Los 7 clústeres fueron obtenidos mediante *K-Means* en coordenadas métricas UTM Zona 19S (EPSG:32719) y generan 7 zonas de proximidad aproximadamente asimilables a las macrozonas urbanas definidas en el PLADECO Talca 2024–2028 (Ilustración 10 y Tabla 8, pp. 46–47). El marcador indica el centroide matemático y el polígono representa la envolvente convexa de los eventos asignados.  
         • **Índice de Severidad Acumulada (ISA):** Indicador ponderado por víctima: **Fallecido (10 pts)**, **Lesionado Grave (5 pts)**, **Lesionado Menos Grave (3 pts)** y **Lesionado Leve (1 pt)**; siniestros solo con daños materiales suman **0 pts**.  
         • **Alcance del indicador:** Al no disponerse de conteos de flujo vehicular (exposición), las métricas reflejan concentración y severidad registrada por Carabineros/CONASET, no probabilidad individual de accidente.
         """)
@@ -423,8 +423,8 @@ with tab_experta:
 
         st.info("""
         **Justificación Metodológica de $K = 7$:**  
-        • **Alineación territorial oficial (Validez de dominio):** El Plan de Desarrollo Comunal (PLADECO) de Talca 2024–2028 (Ilustración 10 y Tabla 8, pp. 46–47) divide el área urbana de la comuna exactamente en **7 zonas urbanas** (*Centro, Pericentro, Norte, Nororiente, Suroriente-Carlos Trupp, Suroriente-Las Colines y Surponiente*).  
-        • **Desempeño estadístico y estabilidad:** Aunque el máximo geométrico puro ocurre en $K=4$ (Silhouette = $0,4413$) y el punto de inflexión Kneedle en $K=5$, avanzar a **$K=7$** recupera cohesión (Silhouette = **$0,3970$**), alcanza una reproducibilidad casi determinista (**ARI = $0,9913$**, superior a $K=5$ [$0,9455$] y $K=8$ [$0,9452$]) y ajusta la escala operativa a un radio mediano de **$653,6\\text{ m}$** (frente a $866,5\\text{ m}$ en $K=4$).
+        • **Alineación territorial (Validez de dominio):** Ninguna métrica interna distingue a $K=7$ como óptimo matemático aislado ($K=4$ maximiza Silhouette con $0,4413$ y $K=9$ mejora métricas internas en particiones finas); se seleccionó $K=7$ por correspondencia operativa con las **7 macrozonas urbanas** del PLADECO Talca 2024–2028 (pp. 46–47).  
+        • **Estabilidad y escala:** Mantiene una alta estabilidad tanto ante reinicios de semilla ($\\text{ARI} = 0,9913$) como ante submuestreo del 80 % de los datos ($\\text{ARI} = 0,966 \\pm 0,041$, superior a $K=5$ [$0,699$] y $K=10$ [$0,857$]), acotando la dispersión a un radio mediano operativo de **$653,6\\text{ m}$**.
         """)
 
         ruta_grafico_hull = os.path.join(DATA_DIR, "exploracion_visual_clusters.png")
@@ -448,16 +448,16 @@ with tab_experta:
 
     st.write("")
 
-    # 3. Validación Temporal Predictiva y Sensibilidad del ISA
+    # 3. Estabilidad Espacial Intertemporal y Sensibilidad del ISA
     col_v1, col_v2 = st.columns(2)
 
     with col_v1:
         with st.container(border=True):
-            st.markdown("#### 3. Validación Temporal (2020–2022 → 2025)")
+            st.markdown("#### 3. Estabilidad Espacial Intertemporal (2020–2022 → 2025)")
             df_temp = cargar_csv_opcional("validacion_temporal_2025.csv")
             if df_temp is not None:
                 st.dataframe(df_temp, use_container_width=True, hide_index=True)
-                st.caption("Porcentaje de siniestros y severidad ISA ocurridos en 2025 capturados por los 7 centroides entrenados exclusivamente con 2020–2022.")
+                st.caption("Porcentaje de siniestros y severidad ISA de 2025 capturados por los 7 centroides entrenados en 2020–2022. Línea base aleatoria: 36,5 % promedio (46,4 % P95) a 650 m y 57,9 % promedio (68,5 % P95) a 1.000 m.")
 
     with col_v2:
         with st.container(border=True):
@@ -466,7 +466,7 @@ with tab_experta:
             if df_sens is not None:
                 cols_rank = ["NOMBRE_ZONA"] + [c for c in df_sens.columns if c.startswith("Rank_")]
                 st.dataframe(df_sens[cols_rank], use_container_width=True, hide_index=True)
-                st.caption("Correlación de rango de Spearman: rho = 1,0000 frente a esquemas severos (20/10/3/1 y 12/6/3/1) y rho = 0,8929 frente a frecuencia pura.")
+                st.caption("Los lesionados leves aportan el 52,9 % del ISA total. Al duplicar pesos de gravedad (20/10/3/1 y 12/6/3/1) el orden de las 7 zonas no varía (rho = 1,0000); frente a frecuencia pura la correlación es rho = 0,8929.")
 
     st.write("")
 
