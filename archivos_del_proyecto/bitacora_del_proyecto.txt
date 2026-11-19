@@ -223,3 +223,44 @@ numérica para el informe final del Módulo Integrador II.
 ESTADO ACTUAL DEL ENTREGABLE: Fase de auditoría y validación cruzada finalizada 
 con éxito (100% de coincidencia). Proyecto listo para redacción final del informe.
 ===============================================================================
+===============================================================================
+
+FECHA DE REGISTRO: 19 de noviembre de 2026
+Hito / Fase: Despliegue en Producción (Streamlit Cloud), Evaluación Experimental de Clustering y Refinamiento de Interfaz.
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+1. Despliegue y Depuración en Producción (Streamlit Community Cloud)
+-------------------------------------------------------------------------------
+- Resolución de rutas en entorno nube: Se refactorizó src/app.py implementando 
+  rutas absolutas dinámicas mediante os.path.abspath(__file__) (BASE_DIR), solucionando 
+  el error [Errno 2] No such file or directory al ejecutar la aplicación desde la raíz del 
+  repositorio en Streamlit Cloud.
+- Optimización de llamadas y depuración de consola (DevTools): Se incorporó el parámetro returned_objects=[] 
+  en el componente st_folium para evitar bucles de recarga innecesarios hacia el servidor. Mediante inspección en 
+  consola web (Chrome DevTools), se verificó la eliminación de excepciones de código y errores de carga de tiles, confirmando 
+  que los únicos códigos 404 residuales corresponden a endpoints internos de telemetría de la capa gratuita de Streamlit 
+  (heap-api.com y /api/v2/user/details), ajenos al código fuente.
+-------------------------------------------------------------------------------
+2. Rigor Metodológico y Evaluación Experimental de Clustering (03_evaluacion_clustering.py)
+-------------------------------------------------------------------------------
+- Justificación matemática de $K=10$: Se desarrolló e integró el script src/03_evaluacion_clustering.py para evaluar 
+  el comportamiento del agrupamiento espacial en el rango $K \in [2, 15]$ mediante tres métricas estándar: 
+  Inercia (Método del Codo), Coeficiente de Silueta (Silhouette Score) e Índice de Davies-Bouldin.
+- Criterio de selección ($K=10$ vs. $K=12$): Se demostró empíricamente que $K=10$ logra una reducción del 80.8% en la inercia 
+  respecto a $K=2$ (0.2201), mantiene un índice de Davies-Bouldin favorable (0.7872) y evita la sobre-fragmentación observada 
+  en $K=12$, punto donde el Coeficiente de Silueta cae a su mínimo global de toda la serie (0.3855).
+- Benchmarking de algoritmos (K-Means vs. DBSCAN): Se contrastó K-Means ($K=10$) frente a DBSCAN (eps=350m, min_samples=30, métrica Haversine), 
+  evidenciando que DBSCAN descarta el 6.3% de los siniestros (288 registros periféricos) como ruido y presenta un Silhouette Score negativo (-0.0042), 
+  validando la superioridad operativa de K-Means al garantizar cobertura total (100%) de los eventos comunales.
+- Generación de evidencia: Se exportaron automáticamente los resultados en data/metricas_evaluacion_clustering.csv y el gráfico dual en data/grafico_codo_silueta.png.
+-------------------------------------------------------------------------------
+3. Evolución de Interfaz y Documentación Técnica
+-------------------------------------------------------------------------------
+- Vista para usuarios expertos: Se reestructuró src/app.py con navegación por 
+  pestañas (st.tabs), manteniendo la vista operativa limpia y agregando la 
+  pestaña "Analítica Avanzada y Calidad del Modelo (Expertos)", que despliega el 
+  benchmarking de algoritmos, las curvas de evaluación $K \in [2, 15]$ y un botón de descarga 
+  directa del dataset de métricas en formato CSV.
+- Actualización de README.md: Se corrigió la terminología técnica del repositorio, sustituyendo 
+  conceptos imprecisos por "Reconciliación de datos y control de calidad ETL" (respaldado mediante Tablas Dinámicas en Excel) 
+  e incorporando el enlace en vivo de la plataforma (siniestralidadvialtalca.streamlit.app).
